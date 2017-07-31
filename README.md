@@ -45,6 +45,30 @@ path = ${DEFAULT:basedir}/{arch}
 path = ${DEFAULT:basedir}/sources
 ```
 
+
+### Use repodata from dnf cache
+
+You can easily use existing dnf cache. Let's make sure you have it:
+
+```
+$ dnf --releasever=26 --enablerepo fedora-source --enablerepo fedora makecache
+```
+
+Once that's done, there should be new directories created in `/var/cache/dnf`
+named `fedora-<hash>` and `fedora-source-<hash>`. Let's use those in
+`repos.cfg` configuration file:
+
+```
+[DEFAULT]
+basedir = /var/cache/dnf
+
+[base]
+path = ${DEFAULT:basedir}/fedora-<hash>
+[base-source]
+path = ${DEFAULT:basedir}/fedora-source-<hash>
+```
+
+
 ## Usage
 
 ```
